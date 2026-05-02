@@ -16,13 +16,12 @@ st.markdown('<p style="text-align:center;color:#78909c">Modèle YOLOv8-m — Fin
 @st.cache_resource
 def load_model():
     model_path = 'best.pt'
-    # Try local file first, otherwise download from HuggingFace
+    # Try local file first, otherwise use YOLOv8m default
     if os.path.exists(model_path):
         return YOLO(model_path)
     else:
-        # Download model from HuggingFace or use a default YOLOv8 model
-        st.warning('Téléchargement du modèle en cours... Veuillez patienter.')
-        return YOLO('yolov8m.pt')  # Default YOLOv8m as fallback
+        with st.spinner('📥 Téléchargement du modèle YOLOv8m...'):
+            return YOLO('yolov8m.pt')
 
 model   = load_model()
 CLASSES = model.names
